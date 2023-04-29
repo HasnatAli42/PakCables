@@ -14,11 +14,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PakCablesTheme {
-                executeAfterDelay(1000) {
+//                executeAfterDelay(1000) {
+//                    startActivity(Intent(this, LoginActivity::class.java))
+//                    finish()
+//                }
+                SplashScreen(onClick = {
                     startActivity(Intent(this, LoginActivity::class.java))
                     finish()
-                }
-                SplashScreen(onClick = {
                 })
             }
         }
