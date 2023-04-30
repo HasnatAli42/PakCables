@@ -1,97 +1,80 @@
 package com.hsa.pakcables.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role.Companion.Button
-import androidx.compose.ui.semantics.Role.Companion.Image
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.hsa.pakcables.R
+import com.hsa.pakcables.components.singletons.*
+import com.hsa.pakcables.ui.theme.gradientGrayBlack
+import com.hsa.pakcables.ui.theme.loginDescription
+import com.hsa.pakcables.ui.theme.loginText
+import com.hsa.pakcables.ui.theme.pakCables
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(login : ()-> Unit) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
-
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .background(gradientGrayBlack)
+            .padding(start = 20.dp, end = 20.dp),
     ) {
-        // App Logo
-        Image(
-            painter = painterResource(id = R.drawable.pakcables2),
-            contentDescription = "App Logo",
-            modifier = Modifier.size(120.dp)
-        )
-        Spacer(modifier = Modifier.height(32.dp))
-        // Email Input
-        OutlinedTextField(
-            value = email.value,
-            onValueChange = { email.value = it },
-            label = { Text(text = "Email") },
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Email,
-                imeAction = ImeAction.Next
-            ),
-            modifier = Modifier.fillMaxWidth(),
-            textStyle = MaterialTheme.typography.body1,
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                textColor = MaterialTheme.colors.onSurface,
-                focusedBorderColor = MaterialTheme.colors.primary,
-                unfocusedBorderColor = MaterialTheme.colors.onSurface
-            )
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        // Password Input
-        OutlinedTextField(
-            value = password.value,
-            onValueChange = { password.value = it },
-            label = { Text(text = "Password") },
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Done
-            ),
-            modifier = Modifier.fillMaxWidth(),
-            textStyle = MaterialTheme.typography.body1,
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                textColor = MaterialTheme.colors.onSurface,
-                focusedBorderColor = MaterialTheme.colors.primary,
-                unfocusedBorderColor = MaterialTheme.colors.onSurface
-            )
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        // Login Button
-        Button(
-            onClick = { /* handle login */ },
+        MainHeadingTextCenter(text = pakCables)
+        Card(
+            elevation = 10.dp,
             modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colors.primary,
-                contentColor = MaterialTheme.colors.onPrimary
-            )
+                .fillMaxWidth(1f)
         ) {
-            Text(text = "Login", style = MaterialTheme.typography.button)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxWidth(1f)
+                    .background(MaterialTheme.colors.background)
+                    .padding(all = 10.dp)
+            ) {
+                // App Logo
+                Row(
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth(1f)
+                ) {
+                    MainHeadingTextStart(text = loginText)
+                }
+                Row(
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth(1f)) {
+                    DescriptionTextStart(text = loginDescription)
+                }
+                Spacer(modifier = Modifier.height(32.dp))
+                // Email Input
+                NormalOutLinedInput(stringMutableState = email)
+                Spacer(modifier = Modifier.height(16.dp))
+                // Password Input
+                PasswordOutLinedInput(passwordState = password)
+                Spacer(modifier = Modifier.height(16.dp))
+                // Login Button
+                NormalPrimaryButton(event = { login() }, text = "Login")
+                Spacer(modifier = Modifier.height(16.dp))
+                // Signup Text
+                Text(
+                    text = "Don't have an account? Sign up",
+                    style = MaterialTheme.typography.body2,
+                    modifier = Modifier.clickable(onClick = { /* handle sign up */ })
+                )
+            }
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        // Signup Text
-        Text(
-            text = "Don't have an account? Sign up",
-            style = MaterialTheme.typography.body2,
-            modifier = Modifier.clickable(onClick = { /* handle sign up */ })
-        )
+
     }
+
 }
