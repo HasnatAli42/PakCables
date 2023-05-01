@@ -8,6 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="statusBarColor">#FF00796B</color>
-    <color name="gradientBlue">#FF0F1D3D</color>
+    <color name="gradientPurple">#FF2E102A</color>
 
 </resources>

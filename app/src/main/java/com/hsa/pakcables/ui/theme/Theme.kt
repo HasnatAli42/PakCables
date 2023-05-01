@@ -6,6 +6,7 @@ import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val LightColorPalette = lightColors(
     primary = Color(0xFF009688),
@@ -42,6 +43,15 @@ fun PakCablesTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composa
     } else {
         LightColorPalette
     }
+
+    val systemUiController = rememberSystemUiController()
+
+        systemUiController.setStatusBarColor(
+            color = GradientPurple
+        )
+        systemUiController.setNavigationBarColor(
+            color = GradientPurple
+        )
 
     MaterialTheme(
         colors = colors,

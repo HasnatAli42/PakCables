@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.hsa.pakcables.R
+import com.hsa.pakcables.components.combined.MainTopBar
 import com.hsa.pakcables.components.singletons.HeadingTextCenter
 import com.hsa.pakcables.components.singletons.MainHeadingTextCenter
 import com.hsa.pakcables.ui.theme.getStarted
@@ -19,22 +20,31 @@ import com.hsa.pakcables.ui.theme.welcomeMsg
 @Composable
 fun SplashScreen(onClick: () -> Unit) {
     Column(
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
             .background(gradientGrayBlack)
-            .clickable(onClick = onClick),
-    ) {
-        MainHeadingTextCenter(text = pakCables)
-        HeadingTextCenter(text = welcomeMsg)
-        HeadingTextCenter(text = getStarted)
-        Image(
-            painter = painterResource(R.drawable.pakcables2),
-            contentDescription = null,
+    ){
+    MainTopBar ()
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .fillMaxWidth(1f)
-                .fillMaxHeight(0.5f)
-        )
+                .fillMaxSize()
+                .background(gradientGrayBlack)
+                .clickable(onClick = onClick),
+        ) {
+            MainHeadingTextCenter(text = pakCables)
+            HeadingTextCenter(text = welcomeMsg)
+            HeadingTextCenter(text = getStarted)
+            Image(
+                painter = painterResource(R.drawable.pakcables2),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth(1f)
+                    .fillMaxHeight(0.5f)
+            )
+        }
     }
 }

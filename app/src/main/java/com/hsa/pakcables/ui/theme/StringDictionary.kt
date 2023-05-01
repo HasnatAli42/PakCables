@@ -6,3 +6,7 @@ const val getStarted = "Login to Manage you Stock"
 
 const val loginText = "Login"
 const val loginDescription = "Please Sign in to continue"
+const val loginSignUpText = "Don't have an account? Sign up"
+
+const val userNameText = "Username"
+const val passwordText = "Password"

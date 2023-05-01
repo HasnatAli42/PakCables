@@ -2,6 +2,6 @@
 <resources>
 
     <style name="Theme.PakCables" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/gradientBlue</item>
+        <item name="android:statusBarColor">@color/gradientPurple</item>
     </style>
 </resources>

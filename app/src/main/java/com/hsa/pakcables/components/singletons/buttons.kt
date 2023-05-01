@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.hsa.pakcables.ui.theme.Blue
 
 @Composable
 fun NormalPrimaryButton (event : ()-> Unit, text: String){
@@ -18,7 +19,7 @@ fun NormalPrimaryButton (event : ()-> Unit, text: String){
             .fillMaxWidth()
             .height(48.dp),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.primary,
+            backgroundColor = Blue,
             contentColor = MaterialTheme.colors.onPrimary
         )
     ) {
