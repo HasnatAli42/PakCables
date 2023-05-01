@@ -13,6 +13,6 @@ const val passwordText = "Password"
 
 const val inputText = "Input"
 const val outputText = "Output"
-const val partyText = "Party Management"
+const val partyText = "Party"
 const val stockText = "Stock"
 const val reportText = "Reports"

@@ -69,7 +69,7 @@ fun HomeBottomBar(
                 modifier = Modifier.fillMaxHeight(1f)
             ) {
                 BottomBarTabsIcon(
-                    painterId = R.drawable.baseline_star_border_24,
+                    painterId = R.drawable.baseline_layers_24,
                     selectedTab = selectedTab,
                     tabValue = 2
                 )
@@ -85,7 +85,7 @@ fun HomeBottomBar(
                 modifier = Modifier.fillMaxHeight(1f)
             ) {
                 BottomBarTabsIcon(
-                    painterId = R.drawable.outline_party_mode_24,
+                    painterId = R.drawable.outline_group_add_24,
                     selectedTab = selectedTab,
                     tabValue = 3
                 )

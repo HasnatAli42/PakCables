@@ -14,6 +14,7 @@ import com.hsa.pakcables.components.combined.HomeBottomBar
 import com.hsa.pakcables.components.combined.HomeTopBar
 import com.hsa.pakcables.components.singletons.HeadingTextCenterBlack
 import com.hsa.pakcables.components.singletons.HeadingTextCenterWhite
+import com.hsa.pakcables.components.singletons.OutPutContent
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -42,69 +43,13 @@ fun HomeScreen() {
         when (selectedTab.value) {
             0 -> InputContent()
             1 -> OutPutContent()
-            2 -> PartyContent()
-            3 -> StockContent()
+            2 -> StockContent()
+            3 -> PartyContent()
             4 -> ReportContent()
         }
     }
 }
 
-@Composable
-fun InputContent() {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        HeadingTextCenterBlack(text = "Input Content")
-    }
-}
 
-@Composable
-fun OutPutContent() {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        HeadingTextCenterBlack(text = "Output Content")
-    }
-}
 
-@Composable
-fun ReportContent() {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        HeadingTextCenterBlack(text = "Report Content")
-    }
-}
 
-@Composable
-fun StockContent() {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        HeadingTextCenterBlack(text = "Stock Content")
-    }
-}
-
-@Composable
-fun PartyContent() {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        HeadingTextCenterBlack(text = "Party Content")
-    }
-}
