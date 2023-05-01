@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.hsa.pakcables.R
 import com.hsa.pakcables.components.combined.MainTopBar
-import com.hsa.pakcables.components.singletons.HeadingTextCenter
+import com.hsa.pakcables.components.singletons.HeadingTextCenterWhite
 import com.hsa.pakcables.components.singletons.MainHeadingTextCenter
 import com.hsa.pakcables.ui.theme.getStarted
 import com.hsa.pakcables.ui.theme.gradientGrayBlack
@@ -36,8 +36,8 @@ fun SplashScreen(onClick: () -> Unit) {
                 .clickable(onClick = onClick),
         ) {
             MainHeadingTextCenter(text = pakCables)
-            HeadingTextCenter(text = welcomeMsg)
-            HeadingTextCenter(text = getStarted)
+            HeadingTextCenterWhite(text = welcomeMsg)
+            HeadingTextCenterWhite(text = getStarted)
             Image(
                 painter = painterResource(R.drawable.pakcables2),
                 contentDescription = null,

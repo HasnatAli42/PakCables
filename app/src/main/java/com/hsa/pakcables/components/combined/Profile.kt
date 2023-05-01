@@ -30,7 +30,7 @@ fun ProfilePicture(avatar: MutableState<String>) {
         )
     } else {
         Image(
-            painter = painterResource(id = R.drawable.baseline_person_24),
+            painter = painterResource(id = R.drawable.baseline_person_outline_24),
             contentDescription = "Profile Picture",
             contentScale = ContentScale.Crop,
             modifier = Modifier

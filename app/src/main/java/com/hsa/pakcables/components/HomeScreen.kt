@@ -1,90 +1,110 @@
 package com.hsa.pakcables.components
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.hsa.pakcables.components.combined.HomeBottomBar
+import com.hsa.pakcables.components.combined.HomeTopBar
+import com.hsa.pakcables.components.singletons.HeadingTextCenterBlack
+import com.hsa.pakcables.components.singletons.HeadingTextCenterWhite
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun HomeScreen() {
-    var selectedTab by remember { mutableStateOf(0) }
+    val selectedTab = remember { mutableStateOf(0) }
+    val profileName = remember { mutableStateOf("Hasnat Ali") }
+    val profileImage = remember { mutableStateOf("") }
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(text = "My App") },
-                backgroundColor = MaterialTheme.colors.primary,
-                contentColor = MaterialTheme.colors.onPrimary,
-                elevation = 4.dp
-            )
+                 HomeTopBar(profileName = profileName, profileImage = profileImage) {
+
+                 }
         },
         bottomBar = {
             BottomNavigation(
+                elevation = 4.dp,
                 backgroundColor = MaterialTheme.colors.surface,
-                elevation = 4.dp
+                modifier = Modifier.fillMaxHeight(0.08f)
             ) {
-                val tabs = listOf(
-                    Pair(Icons.Default.Home, "Home"),
-                    Pair(Icons.Default.Search, "Search"),
-                    Pair(Icons.Default.Favorite, "Favorites")
+                HomeBottomBar(
+                    selectedTab = selectedTab
                 )
-                tabs.forEachIndexed { index, tab ->
-                    val selected = selectedTab == index
-                    val tint = if (selected) {
-                        MaterialTheme.colors.primary
-                    } else {
-                        MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
-                    }
-                    Tab(
-                        selected = selected,
-                        onClick = { selectedTab = index },
-                        content = {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Icon(
-                                    imageVector = tab.first,
-                                    contentDescription = tab.second,
-                                    tint = tint
-                                )
-                                Text(
-                                    text = tab.second,
-                                    color = tint
-                                )
-                            }
-                        }
-                    )
-                }
             }
         }
     ) {
-        // Show content based on selected tab
-        when (selectedTab) {
-            0 -> HomeContent()
-            1 -> SearchContent()
-            2 -> FavoritesContent()
+        when (selectedTab.value) {
+            0 -> InputContent()
+            1 -> OutPutContent()
+            2 -> PartyContent()
+            3 -> StockContent()
+            4 -> ReportContent()
         }
     }
 }
 
 @Composable
-fun HomeContent() {
-    // TODO: Add content for Home tab
+fun InputContent() {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        HeadingTextCenterBlack(text = "Input Content")
+    }
 }
 
 @Composable
-fun SearchContent() {
-    // TODO: Add content for Search tab
+fun OutPutContent() {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        HeadingTextCenterBlack(text = "Output Content")
+    }
 }
 
 @Composable
-fun FavoritesContent() {
-    // TODO: Add content for Favorites tab
+fun ReportContent() {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        HeadingTextCenterBlack(text = "Report Content")
+    }
+}
+
+@Composable
+fun StockContent() {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        HeadingTextCenterBlack(text = "Stock Content")
+    }
+}
+
+@Composable
+fun PartyContent() {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        HeadingTextCenterBlack(text = "Party Content")
+    }
 }

@@ -10,3 +10,9 @@ const val loginSignUpText = "Don't have an account? Sign up"
 
 const val userNameText = "Username"
 const val passwordText = "Password"
+
+const val inputText = "Input"
+const val outputText = "Output"
+const val partyText = "Party Management"
+const val stockText = "Stock"
+const val reportText = "Reports"

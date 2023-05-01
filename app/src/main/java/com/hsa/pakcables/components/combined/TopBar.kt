@@ -62,7 +62,7 @@ fun HomeTopBar(
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween,modifier = Modifier
             .fillMaxWidth(1f)
-            .background(gradientGrayBlack)
+            .background(gradientBlackGray)
             .padding(all = 10.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
