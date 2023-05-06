@@ -10,15 +10,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.room.Database
 import com.hsa.pakcables.components.combined.HomeBottomBar
 import com.hsa.pakcables.components.combined.HomeTopBar
 import com.hsa.pakcables.components.singletons.HeadingTextCenterBlack
 import com.hsa.pakcables.components.singletons.HeadingTextCenterWhite
 import com.hsa.pakcables.components.singletons.OutPutContent
+import com.hsa.pakcables.database.StockDataBase
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun HomeScreen() {
+fun HomeScreen(db : StockDataBase) {
     val selectedTab = remember { mutableStateOf(0) }
     val profileName = remember { mutableStateOf("Hasnat Ali") }
     val profileImage = remember { mutableStateOf("") }
@@ -41,7 +43,7 @@ fun HomeScreen() {
         }
     ) {
         when (selectedTab.value) {
-            0 -> InputContent()
+            0 -> InputContent(db = db)
             1 -> OutPutContent()
             2 -> StockContent()
             3 -> PartyContent()

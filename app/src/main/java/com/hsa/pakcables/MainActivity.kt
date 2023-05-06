@@ -19,7 +19,6 @@ class MainActivity : ComponentActivity() {
             StockDataBase::class.java,
             "stock.db"
         ).build()
-
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
