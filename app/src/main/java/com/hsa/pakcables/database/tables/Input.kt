@@ -2,6 +2,7 @@ package com.hsa.pakcables.database.tables
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.Date
 
 @Entity
 data class Input(
@@ -13,15 +14,15 @@ data class Input(
     val white : Int,
     val other : Int,
     val total : Int,
-    val core2 : Float,
-    val core3 : Float,
-    val core4 : Float,
-    val core5 : Float,
-    val core6 : Float,
-    val createdDate : String,
-    val lastUpdated : String,
+    val core2 : Double,
+    val core3 : Double,
+    val core4 : Double,
+    val core5 : Double,
+    val core6 : Double,
+    val createdDate : Date,
+    val lastUpdated : Date,
     val inputID : Int,
 
     @PrimaryKey(autoGenerate = true)
-    val id: Int? = 0,
+    val id: Int? = null,
 )

@@ -2,6 +2,7 @@ package com.hsa.pakcables.database.tables
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.Date
 
 @Entity
 data class User(
@@ -13,9 +14,9 @@ data class User(
     val dob: String,
     val isAdmin: Boolean,
     val hasAcceptedTerms: Boolean,
-    val createdDate : String,
-    val lastUpdated : String,
+    val createdDate : Date,
+    val lastUpdated : Date,
 
     @PrimaryKey(autoGenerate = true)
-    val id: Int? = 0,
+    val id: Int? = null,
 )

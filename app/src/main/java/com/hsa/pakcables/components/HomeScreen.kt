@@ -1,20 +1,13 @@
 package com.hsa.pakcables.components
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.room.Database
 import com.hsa.pakcables.components.combined.HomeBottomBar
 import com.hsa.pakcables.components.combined.HomeTopBar
-import com.hsa.pakcables.components.singletons.HeadingTextCenterBlack
-import com.hsa.pakcables.components.singletons.HeadingTextCenterWhite
 import com.hsa.pakcables.components.singletons.OutPutContent
 import com.hsa.pakcables.database.StockDataBase
 
@@ -22,7 +15,7 @@ import com.hsa.pakcables.database.StockDataBase
 @Composable
 fun HomeScreen(db : StockDataBase) {
     val selectedTab = remember { mutableStateOf(0) }
-    val profileName = remember { mutableStateOf("Hasnat Ali") }
+    val profileName = remember { mutableStateOf("Irfan") }
     val profileImage = remember { mutableStateOf("") }
     Scaffold(
         topBar = {
@@ -44,10 +37,10 @@ fun HomeScreen(db : StockDataBase) {
     ) {
         when (selectedTab.value) {
             0 -> InputContent(db = db)
-            1 -> OutPutContent()
-            2 -> StockContent()
-            3 -> PartyContent()
-            4 -> ReportContent()
+            1 -> OutPutContent(db = db)
+            2 -> StockContent(db = db)
+            3 -> CodingContent(db = db)
+            4 -> ReportContent(db = db)
         }
     }
 }

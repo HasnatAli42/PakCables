@@ -13,6 +13,21 @@ const val passwordText = "Password"
 
 const val inputText = "Input"
 const val outputText = "Output"
-const val partyText = "Party"
+const val codingText = "Codings"
 const val stockText = "Stock"
 const val reportText = "Reports"
+
+const val partyCodingText = "Party Coding"
+const val itemCodingText = "Items Coding"
+
+const val partyCodingInputText = "Party Name"
+const val itemCodingInputText = "Item Name"
+
+const val addText = "Add"
+const val updateText = "Update"
+const val fieldRequiredText = "Field is Required"
+
+const val deleteRecordText = "Delete Record"
+const val moveUpRecordText = "Move Record Up"
+const val movedDownRecordText = "Move Record Down"
+const val editRecordText = "Edit Record"

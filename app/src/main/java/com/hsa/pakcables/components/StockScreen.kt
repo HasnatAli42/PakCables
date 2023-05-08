@@ -7,9 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.hsa.pakcables.components.singletons.HeadingTextCenterBlack
+import com.hsa.pakcables.database.StockDataBase
 
 @Composable
-fun StockContent() {
+fun StockContent(db : StockDataBase) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,

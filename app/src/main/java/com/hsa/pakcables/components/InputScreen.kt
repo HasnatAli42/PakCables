@@ -19,7 +19,10 @@ import com.hsa.pakcables.components.singletons.HeadingTextCenterBlack
 import com.hsa.pakcables.components.singletons.SymbolGradientCircleButton
 import com.hsa.pakcables.database.StockDataBase
 import com.hsa.pakcables.database.tables.PartyCoding
+import com.hsa.pakcables.functions.getCurrentDate
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Composable
 fun InputContent(db : StockDataBase) {
@@ -31,13 +34,10 @@ fun InputContent(db : StockDataBase) {
             .padding(all = 10.dp)
     ) {
         val coroutineScope = rememberCoroutineScope()
-        val party : PartyCoding = PartyCoding(name = "College Road Party", createdDate = "5-7-2023", lastUpdated = "5-7-2023")
+        val party : PartyCoding = PartyCoding(name = "Electric Party", createdDate = getCurrentDate(), lastUpdated = getCurrentDate(), sortOrder = 1.0)
         val isViewPreviousInputExpanded = remember { mutableStateOf(false) }
-        SymbolGradientCircleButton(event = {
-            coroutineScope.launch {
-                db.partyCodingDao.upsertPartyCoding(partyCoding = party)
-            }
-                                           }, icon = painterResource(id = R.drawable.baseline_assignment_24))
+        SymbolGradientCircleButton(event = {}, icon = painterResource(id = R.drawable.baseline_assignment_24))
+        HeadingTextCenterBlack(text = "Input Content")
 
     }
 }

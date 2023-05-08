@@ -19,7 +19,7 @@ class HomeActivity : ComponentActivity() {
             applicationContext,
             StockDataBase::class.java,
             "stock.db"
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

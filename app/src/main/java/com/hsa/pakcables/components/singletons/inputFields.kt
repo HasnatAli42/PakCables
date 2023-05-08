@@ -1,5 +1,6 @@
 package com.hsa.pakcables.components.singletons
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -39,24 +40,26 @@ fun NormalOutLinedInput(stringMutableState: MutableState<String>, labelText : St
 
 @Composable
 fun NormalOutLinedInputWithError(stringMutableState: MutableState<String>, errorMutableState: MutableState<String>, labelText : String){
-    OutlinedTextField(
-        value = stringMutableState.value,
-        onValueChange = { stringMutableState.value = it },
-        label = { Text(text = labelText) },
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Email,
-            imeAction = ImeAction.Next
-        ),
-        modifier = Modifier.fillMaxWidth(),
-        textStyle = MaterialTheme.typography.body1,
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = MaterialTheme.colors.onSurface,
-            focusedBorderColor = MaterialTheme.colors.primary,
-            unfocusedBorderColor = MaterialTheme.colors.onSurface
+    Column(modifier = Modifier.fillMaxWidth()) {
+        OutlinedTextField(
+            value = stringMutableState.value,
+            onValueChange = { stringMutableState.value = it },
+            label = { Text(text = labelText) },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            textStyle = MaterialTheme.typography.body1,
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                textColor = MaterialTheme.colors.onSurface,
+                focusedBorderColor = MaterialTheme.colors.primary,
+                unfocusedBorderColor = MaterialTheme.colors.onSurface
+            ),
         )
-    )
-    if (errorMutableState.value.isNotEmpty()){
-        Text(text = errorMutableState.value, color = Red)
+        if (errorMutableState.value.isNotEmpty()){
+            Text(text = errorMutableState.value, color = Red)
+        }
     }
 }
 @Composable

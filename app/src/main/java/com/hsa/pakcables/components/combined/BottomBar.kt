@@ -90,7 +90,7 @@ fun HomeBottomBar(
                     tabValue = 3
                 )
                 BottomBarTabsText(
-                    text = partyText,
+                    text = codingText,
                     selectedTab = selectedTab,
                     tabValue = 3
                 )
