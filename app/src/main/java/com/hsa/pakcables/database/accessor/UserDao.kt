@@ -18,6 +18,6 @@ interface UserDao {
     @Query("SELECT * FROM user ORDER BY userName ASC")
     fun getUserByUserName(): Flow<List<User>>
 
-    @Query("SELECT * FROM user ORDER BY phoneNumber ASC")
-    fun getUserByPhoneNumber(): Flow<List<User>>
+    @Query("SELECT * FROM User WHERE username = :username AND password = :password")
+    fun getUserByUsernameAndPassword(username: String, password: String): User?
 }

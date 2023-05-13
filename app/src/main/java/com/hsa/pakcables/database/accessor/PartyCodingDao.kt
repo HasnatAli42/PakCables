@@ -17,6 +17,6 @@ interface PartyCodingDao {
     @Delete
     suspend fun deletePartyCoding(partyCoding: PartyCoding)
 
-    @Query("SELECT * FROM partyCoding ORDER BY sortOrder ASC")
-    fun getPartyCoding(): Flow<List<PartyCoding>>
+    @Query("SELECT * FROM partyCoding WHERE userID = :userID ORDER BY sortOrder ASC")
+    fun getPartyCoding(userID : Int): Flow<List<PartyCoding>>
 }

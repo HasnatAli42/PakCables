@@ -33,9 +33,6 @@ fun InputContent(db : StockDataBase) {
             .fillMaxSize()
             .padding(all = 10.dp)
     ) {
-        val coroutineScope = rememberCoroutineScope()
-        val party : PartyCoding = PartyCoding(name = "Electric Party", createdDate = getCurrentDate(), lastUpdated = getCurrentDate(), sortOrder = 1.0)
-        val isViewPreviousInputExpanded = remember { mutableStateOf(false) }
         SymbolGradientCircleButton(event = {}, icon = painterResource(id = R.drawable.baseline_assignment_24))
         HeadingTextCenterBlack(text = "Input Content")
 

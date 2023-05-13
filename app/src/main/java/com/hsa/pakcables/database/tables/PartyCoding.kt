@@ -7,6 +7,7 @@ import java.util.Date
 @Entity
 data class PartyCoding(
     val name : String,
+    val userId : Int,
     var sortOrder  : Double,
     val createdDate : Date,
     var lastUpdated : Date,

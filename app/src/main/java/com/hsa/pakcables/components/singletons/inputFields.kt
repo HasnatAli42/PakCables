@@ -18,36 +18,17 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.hsa.pakcables.ui.theme.Red
 
-@Composable
-fun NormalOutLinedInput(stringMutableState: MutableState<String>, labelText : String){
-    OutlinedTextField(
-        value = stringMutableState.value,
-        onValueChange = { stringMutableState.value = it },
-        label = { Text(text = labelText) },
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Email,
-            imeAction = ImeAction.Next
-        ),
-        modifier = Modifier.fillMaxWidth(),
-        textStyle = MaterialTheme.typography.body1,
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = MaterialTheme.colors.onSurface,
-            focusedBorderColor = MaterialTheme.colors.primary,
-            unfocusedBorderColor = MaterialTheme.colors.onSurface
-        )
-    )
-}
 
 @Composable
-fun NormalOutLinedInputWithError(stringMutableState: MutableState<String>, errorMutableState: MutableState<String>, labelText : String){
+fun OutLinedInputWithError(stringMutableState: MutableState<String>, errorMutableState: MutableState<String>, labelText : String , keyboardType: KeyboardType, imeAction: ImeAction){
     Column(modifier = Modifier.fillMaxWidth()) {
         OutlinedTextField(
             value = stringMutableState.value,
             onValueChange = { stringMutableState.value = it },
             label = { Text(text = labelText) },
             keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Email,
-                imeAction = ImeAction.Next
+                keyboardType = keyboardType,
+                imeAction = imeAction
             ),
             modifier = Modifier.fillMaxWidth(),
             textStyle = MaterialTheme.typography.body1,
@@ -56,57 +37,40 @@ fun NormalOutLinedInputWithError(stringMutableState: MutableState<String>, error
                 focusedBorderColor = MaterialTheme.colors.primary,
                 unfocusedBorderColor = MaterialTheme.colors.onSurface
             ),
+            isError = errorMutableState.value.isNotEmpty(),
         )
         if (errorMutableState.value.isNotEmpty()){
             Text(text = errorMutableState.value, color = Red)
         }
     }
 }
+
 @Composable
-fun PasswordOutLinedInput(passwordState: MutableState<String>, labelText : String){
+fun PasswordOutLinedInputWithError(stringMutableState: MutableState<String>, errorMutableState: MutableState<String>, labelText : String , keyboardType: KeyboardType, imeAction: ImeAction){
     val focusManager = LocalFocusManager.current
-    OutlinedTextField(
-        value = passwordState.value,
-        onValueChange = { passwordState.value = it },
-        label = { Text(text = labelText) },
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Password,
-            imeAction = ImeAction.Done
-        ),
-        keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-        visualTransformation = PasswordVisualTransformation(),
-        modifier = Modifier.fillMaxWidth(),
-        textStyle = MaterialTheme.typography.body1,
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = MaterialTheme.colors.onSurface,
-            focusedBorderColor = MaterialTheme.colors.primary,
-            unfocusedBorderColor = MaterialTheme.colors.onSurface
+    Column(modifier = Modifier.fillMaxWidth()) {
+        OutlinedTextField(
+            value = stringMutableState.value,
+            onValueChange = { stringMutableState.value = it },
+            label = { Text(text = labelText) },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = keyboardType,
+                imeAction = imeAction
+            ),
+            keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.fillMaxWidth(),
+            textStyle = MaterialTheme.typography.body1,
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                textColor = MaterialTheme.colors.onSurface,
+                focusedBorderColor = MaterialTheme.colors.primary,
+                unfocusedBorderColor = MaterialTheme.colors.onSurface
+            ),
+            isError = errorMutableState.value.isNotEmpty(),
         )
-    )
-}
-@Composable
-fun PasswordOutLinedInputWithError(passwordState: MutableState<String>, errorMutableState: MutableState<String>, labelText : String){
-    val focusManager = LocalFocusManager.current
-    OutlinedTextField(
-        value = passwordState.value,
-        onValueChange = { passwordState.value = it },
-        label = { Text(text = labelText) },
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Password,
-            imeAction = ImeAction.Done
-        ),
-        keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-        visualTransformation = PasswordVisualTransformation(),
-        modifier = Modifier.fillMaxWidth(),
-        textStyle = MaterialTheme.typography.body1,
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = MaterialTheme.colors.onSurface,
-            focusedBorderColor = MaterialTheme.colors.primary,
-            unfocusedBorderColor = MaterialTheme.colors.onSurface
-        )
-    )
-    if (errorMutableState.value.isNotEmpty()){
-        Text(text = errorMutableState.value, color = Red)
+        if (errorMutableState.value.isNotEmpty()) {
+            Text(text = errorMutableState.value, color = Red)
+        }
     }
 }
 

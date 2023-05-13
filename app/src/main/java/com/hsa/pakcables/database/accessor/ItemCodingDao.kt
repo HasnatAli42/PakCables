@@ -17,6 +17,6 @@ interface ItemCodingDao {
     @Delete
     suspend fun deleteItemCoding(itemCoding: ItemCoding)
 
-    @Query("SELECT * FROM itemCoding ORDER BY sortOrder ASC")
-    fun getItemCoding(): Flow<List<ItemCoding>>
+    @Query("SELECT * FROM itemCoding WHERE userID = :userID ORDER BY sortOrder ASC")
+    fun getItemCoding(userID : Int): Flow<List<ItemCoding>>
 }

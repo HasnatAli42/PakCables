@@ -7,6 +7,7 @@ import java.util.*
 @Entity
 data class ItemCoding(
     val name : String,
+    val userId : Int,
     var sortOrder  : Double,
     val createdDate : Date,
     var lastUpdated : Date,

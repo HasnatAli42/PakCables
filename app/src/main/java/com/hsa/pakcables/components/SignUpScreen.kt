@@ -1,8 +1,6 @@
 package com.hsa.pakcables.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -17,15 +15,23 @@ import com.hsa.pakcables.components.singletons.*
 import com.hsa.pakcables.ui.theme.*
 
 @Composable
-fun LoginScreen(
-    email: MutableState<String>,
-    emailError: MutableState<String>,
+fun SignUpScreen(
+    firstName : MutableState<String>,
+    firstNameError : MutableState<String>,
+    lastName : MutableState<String>,
+    lastNameError : MutableState<String>,
+    email : MutableState<String>,
+    emailError : MutableState<String>,
+    phoneNumber : MutableState<String>,
+    phoneNumberError : MutableState<String>,
     password : MutableState<String>,
     passwordError : MutableState<String>,
-    isRemembered : MutableState<Boolean>,
-    login : ()-> Unit,
-    goToSignUpPage : ()-> Unit
+    confirmPassword : MutableState<String>,
+    confirmPasswordError : MutableState<String>,
+    signUp : ()-> Unit,
+    goToLogin : ()-> Unit,
 ) {
+    val scroll = rememberScrollState()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
@@ -53,8 +59,10 @@ fun LoginScreen(
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier
                         .fillMaxWidth(1f)
+                        .fillMaxHeight(1f)
                         .background(MaterialTheme.colors.background)
                         .padding(start = 10.dp, top = 50.dp, bottom = 50.dp, end = 10.dp)
+                        .verticalScroll(scroll)
                 ) {
                     // App Logo
                     Row(
@@ -63,30 +71,32 @@ fun LoginScreen(
                         modifier = Modifier
                             .fillMaxWidth(1f)
                     ) {
-                        MainHeadingTextStart(text = loginText)
+                        MainHeadingTextStart(text = signUpText)
                     }
                     Row(
                         horizontalArrangement = Arrangement.Start,
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth(1f)) {
-                        DescriptionTextStart(text = loginDescription)
+                        DescriptionTextStart(text = signupDescription)
                     }
                     Spacer(modifier = Modifier.height(32.dp))
-                    // Email Input
-                    OutLinedInputWithError(stringMutableState = email, labelText = userNameText , errorMutableState = emailError, keyboardType = KeyboardType.Email, imeAction = ImeAction.Next)
+                    OutLinedInputWithError(stringMutableState = firstName, errorMutableState = firstNameError, labelText = firstNameText, keyboardType = KeyboardType.Text, imeAction = ImeAction.Next)
                     Spacer(modifier = Modifier.height(16.dp))
-                    // Password Input
-                    PasswordOutLinedInputWithError(stringMutableState = password, labelText = passwordText, errorMutableState = passwordError, keyboardType = KeyboardType.Password, imeAction = ImeAction.Done)
+                    OutLinedInputWithError(stringMutableState = lastName, errorMutableState = lastNameError, labelText = lastNameText, keyboardType = KeyboardType.Text, imeAction = ImeAction.Next)
                     Spacer(modifier = Modifier.height(16.dp))
-                    CheckboxComponent(isChecked = isRemembered, label = rememberMeText)
+                    OutLinedInputWithError(stringMutableState = email, errorMutableState = emailError, labelText = emailText, keyboardType = KeyboardType.Email, imeAction = ImeAction.Next)
                     Spacer(modifier = Modifier.height(16.dp))
-                    // Login Button
-                    NormalPrimaryButton(event = { login() }, text = loginText)
+                    OutLinedInputWithError(stringMutableState = phoneNumber, errorMutableState = phoneNumberError, labelText = phoneNumberText, keyboardType = KeyboardType.Phone, imeAction = ImeAction.Next)
                     Spacer(modifier = Modifier.height(16.dp))
-                    // Signup Text
-                    ClickableDescriptionTextStart(text = loginSignUpText) {
-                        goToSignUpPage()
+                    PasswordOutLinedInputWithError(stringMutableState = password, errorMutableState = passwordError, labelText = passwordText, keyboardType = KeyboardType.Password, imeAction = ImeAction.Next)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    PasswordOutLinedInputWithError(stringMutableState = confirmPassword, errorMutableState = confirmPasswordError, labelText = confirmPasswordText, keyboardType = KeyboardType.Password, imeAction = ImeAction.Done)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    NormalPrimaryButton(event = { signUp() }, text = signUpText)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    ClickableDescriptionTextStart(text = signUpLoginText) {
+                        goToLogin()
                     }
                 }
             }

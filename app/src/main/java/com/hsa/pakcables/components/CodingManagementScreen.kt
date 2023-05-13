@@ -1,7 +1,5 @@
 package com.hsa.pakcables.components
 
-import android.content.ClipData.Item
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -9,19 +7,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.room.Delete
-import com.hsa.pakcables.classes.DragPosition
 import com.hsa.pakcables.components.cardViews.ItemCodingView
 import com.hsa.pakcables.components.cardViews.PartyCodingView
 import com.hsa.pakcables.components.combined.InputRowForItemCoding
 import com.hsa.pakcables.components.combined.InputRowForPartyCoding
 import com.hsa.pakcables.components.combined.ViewSwitches_2
 import com.hsa.pakcables.database.StockDataBase
+import com.hsa.pakcables.database.tables.CurrentUser
 import com.hsa.pakcables.database.tables.ItemCoding
 import com.hsa.pakcables.database.tables.PartyCoding
 import com.hsa.pakcables.functions.getCurrentDate
 import com.hsa.pakcables.ui.theme.*
-import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.launch
 
 
@@ -32,7 +28,8 @@ fun CodingContent(db: StockDataBase) {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth(1f)
+            .fillMaxHeight(0.92f)
     ) {
         Spacer(modifier = Modifier.padding(top = 10.dp))
         ViewSwitches_2(
@@ -60,92 +57,98 @@ fun ItemCodingContent(db: StockDataBase) {
     }
     val editedItem = remember { mutableListOf<ItemCoding>() }
     val coroutineScope = rememberCoroutineScope()
-    val itemCodingData: List<ItemCoding> by db.itemCodingDao.getItemCoding()
-        .collectAsState(initial = emptyList())
-
-    Column(
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        InputRowForItemCoding(
-            stringMutableState = inputItemName,
-            errorMutableState = inputItemNameError,
-            buttonText = buttonText.value
+    val currentUserCheck : List<CurrentUser> by db.currentUserDao.getUserById().collectAsState(
+        initial = emptyList()
+    )
+    if(currentUserCheck.isNotEmpty()){
+        val itemCodingData: List<ItemCoding> by db.itemCodingDao.getItemCoding(currentUserCheck[0].userID)
+            .collectAsState(initial = emptyList())
+        Column(
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
         ) {
-            if (inputItemName.value.isNotEmpty()) {
-                inputItemNameError.value = ""
-                coroutineScope.launch {
-                    if (buttonText.value == updateText){
-                        buttonText.value = addText
-                        db.itemCodingDao.upsertItemCoding(
-                            ItemCoding(
-                                name = inputItemName.value,
-                                sortOrder = editedItem.last().sortOrder,
-                                createdDate = editedItem.last().createdDate,
-                                lastUpdated = getCurrentDate(),
-                                id = editedItem.last().id
+            InputRowForItemCoding(
+                stringMutableState = inputItemName,
+                errorMutableState = inputItemNameError,
+                buttonText = buttonText.value
+            ) {
+                if (inputItemName.value.isNotEmpty()) {
+                    inputItemNameError.value = ""
+                    coroutineScope.launch {
+                        if (buttonText.value == updateText){
+                            buttonText.value = addText
+                            db.itemCodingDao.upsertItemCoding(
+                                ItemCoding(
+                                    name = inputItemName.value,
+                                    sortOrder = editedItem.last().sortOrder,
+                                    createdDate = editedItem.last().createdDate,
+                                    lastUpdated = getCurrentDate(),
+                                    id = editedItem.last().id,
+                                    userId = currentUserCheck[0].userID
+                                )
                             )
-                        )
-                    }else{
-                        db.itemCodingDao.upsertItemCoding(
-                            ItemCoding(
-                            name = inputItemName.value,
-                            sortOrder = if (itemCodingData.isNotEmpty()) {
-                                itemCodingData.last().sortOrder + 1
-                            } else {
-                                1.0
-                            },
-                            createdDate = getCurrentDate(),
-                            lastUpdated = getCurrentDate()
-                        ))
+                        }else{
+                            db.itemCodingDao.upsertItemCoding(
+                                ItemCoding(
+                                    name = inputItemName.value,
+                                    sortOrder = if (itemCodingData.isNotEmpty()) {
+                                        itemCodingData.last().sortOrder + 1
+                                    } else {
+                                        1.0
+                                    },
+                                    createdDate = getCurrentDate(),
+                                    lastUpdated = getCurrentDate(),
+                                    userId = currentUserCheck[0].userID
+                                ))
+                        }
+                        inputItemName.value = ""
                     }
-                    inputItemName.value = ""
+                } else {
+                    inputItemNameError.value = fieldRequiredText
                 }
-            } else {
-                inputItemNameError.value = fieldRequiredText
             }
+            ItemCodingListView(
+                itemCodingData = itemCodingData,
+                onDeletePressed = { itemToDelete ->
+                    coroutineScope.launch {
+                        db.itemCodingDao.deleteItemCoding(itemToDelete)
+                    }
+                },
+                onItemMovedUpPressed = { itemToMoveUp ->
+                    val itemIndex = itemCodingData.indexOf(itemToMoveUp)
+                    val itemToShiftUp = itemCodingData[itemIndex]
+                    val itemToShiftDown = itemCodingData[itemIndex - 1]
+                    itemToShiftUp.sortOrder = itemToShiftUp.sortOrder - 1
+                    itemToShiftDown.sortOrder = itemToShiftDown.sortOrder + 1
+                    itemToShiftUp.lastUpdated = getCurrentDate()
+                    itemToShiftDown.lastUpdated = getCurrentDate()
+                    coroutineScope.launch {
+                        db.itemCodingDao.upsertItemCoding(itemToShiftUp)
+                        db.itemCodingDao.upsertItemCoding(itemToShiftDown)
+                    }
+                },
+                onItemMovedDownPressed = { itemToMoveDown ->
+                    val itemIndex = itemCodingData.indexOf(itemToMoveDown)
+                    val itemToShiftUp = itemCodingData[itemIndex + 1]
+                    val itemToShiftDown = itemCodingData[itemIndex]
+                    itemToShiftUp.sortOrder = itemToShiftUp.sortOrder - 1
+                    itemToShiftDown.sortOrder = itemToShiftDown.sortOrder + 1
+                    itemToShiftUp.lastUpdated = getCurrentDate()
+                    itemToShiftDown.lastUpdated = getCurrentDate()
+                    coroutineScope.launch {
+                        db.itemCodingDao.upsertItemCoding(itemToShiftUp)
+                        db.itemCodingDao.upsertItemCoding(itemToShiftDown)
+                    }
+                },
+                onEditPressed = { itemToEdit ->
+                    editedItem.add(itemToEdit)
+                    buttonText.value = updateText
+                    inputItemName.value = itemToEdit.name
+                }
+            )
         }
-        ItemCodingListView(
-            itemCodingData = itemCodingData,
-            onDeletePressed = { itemToDelete ->
-                coroutineScope.launch {
-                    db.itemCodingDao.deleteItemCoding(itemToDelete)
-                }
-            },
-            onItemMovedUpPressed = { itemToMoveUp ->
-                val itemIndex = itemCodingData.indexOf(itemToMoveUp)
-                val itemToShiftUp = itemCodingData[itemIndex]
-                val itemToShiftDown = itemCodingData[itemIndex - 1]
-                itemToShiftUp.sortOrder = itemToShiftUp.sortOrder - 1
-                itemToShiftDown.sortOrder = itemToShiftDown.sortOrder + 1
-                itemToShiftUp.lastUpdated = getCurrentDate()
-                itemToShiftDown.lastUpdated = getCurrentDate()
-                coroutineScope.launch {
-                    db.itemCodingDao.upsertItemCoding(itemToShiftUp)
-                    db.itemCodingDao.upsertItemCoding(itemToShiftDown)
-                }
-            },
-            onItemMovedDownPressed = { itemToMoveDown ->
-                val itemIndex = itemCodingData.indexOf(itemToMoveDown)
-                val itemToShiftUp = itemCodingData[itemIndex + 1]
-                val itemToShiftDown = itemCodingData[itemIndex]
-                itemToShiftUp.sortOrder = itemToShiftUp.sortOrder - 1
-                itemToShiftDown.sortOrder = itemToShiftDown.sortOrder + 1
-                itemToShiftUp.lastUpdated = getCurrentDate()
-                itemToShiftDown.lastUpdated = getCurrentDate()
-                coroutineScope.launch {
-                    db.itemCodingDao.upsertItemCoding(itemToShiftUp)
-                    db.itemCodingDao.upsertItemCoding(itemToShiftDown)
-                }
-            },
-            onEditPressed = { itemToEdit ->
-                editedItem.add(itemToEdit)
-                buttonText.value = updateText
-                inputItemName.value = itemToEdit.name
-            }
-        )
     }
 
 }
@@ -195,91 +198,98 @@ fun PartyCodingContent(db: StockDataBase) {
         mutableStateOf(addText)
     }
     val coroutineScope = rememberCoroutineScope()
-    val partyCodingData: List<PartyCoding> by db.partyCodingDao.getPartyCoding()
-        .collectAsState(initial = emptyList())
-    val editedItem = remember { mutableListOf<PartyCoding>() }
+    val currentUserCheck : List<CurrentUser> by db.currentUserDao.getUserById().collectAsState(
+        initial = emptyList()
+    )
+    if (currentUserCheck.isNotEmpty()){
+        val partyCodingData: List<PartyCoding> by db.partyCodingDao.getPartyCoding(currentUserCheck[0].userID)
+            .collectAsState(initial = emptyList())
+        val editedItem = remember { mutableListOf<PartyCoding>() }
 
-    Column(
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        InputRowForPartyCoding(
-            stringMutableState = inputPartyName,
-            errorMutableState = inputPartyNameError,
-            buttonText = buttonText.value
+        Column(
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
         ) {
-            if (inputPartyName.value.isNotEmpty()) {
-                inputPartyNameError.value = ""
-                coroutineScope.launch {
-                    if (buttonText.value == updateText){
-                        buttonText.value = addText
-                        db.partyCodingDao.upsertPartyCoding(
-                            PartyCoding(
-                                name = inputPartyName.value,
-                                sortOrder = editedItem.last().sortOrder,
-                                createdDate = editedItem.last().createdDate,
-                                lastUpdated = getCurrentDate(),
-                                id = editedItem.last().id
-                        )
-                        )
-                    }else{
-                        db.partyCodingDao.upsertPartyCoding(
-                            PartyCoding(
-                            name = inputPartyName.value, sortOrder = if (partyCodingData.isNotEmpty()) {
-                                partyCodingData.last().sortOrder + 1
-                            } else {
-                                1.0
-                            }, createdDate = getCurrentDate(), lastUpdated = getCurrentDate()
-                        ))
+            InputRowForPartyCoding(
+                stringMutableState = inputPartyName,
+                errorMutableState = inputPartyNameError,
+                buttonText = buttonText.value
+            ) {
+                if (inputPartyName.value.isNotEmpty()) {
+                    inputPartyNameError.value = ""
+                    coroutineScope.launch {
+                        if (buttonText.value == updateText){
+                            buttonText.value = addText
+                            db.partyCodingDao.upsertPartyCoding(
+                                PartyCoding(
+                                    name = inputPartyName.value,
+                                    sortOrder = editedItem.last().sortOrder,
+                                    createdDate = editedItem.last().createdDate,
+                                    lastUpdated = getCurrentDate(),
+                                    id = editedItem.last().id,
+                                    userId = currentUserCheck[0].userID
+                                )
+                            )
+                        }else{
+                            db.partyCodingDao.upsertPartyCoding(
+                                PartyCoding(
+                                    name = inputPartyName.value, sortOrder = if (partyCodingData.isNotEmpty()) {
+                                        partyCodingData.last().sortOrder + 1
+                                    } else {
+                                        1.0
+                                    }, createdDate = getCurrentDate(), lastUpdated = getCurrentDate(),
+                                    userId = currentUserCheck[0].userID
+                                ))
+                        }
+                        inputPartyName.value = ""
                     }
-                    inputPartyName.value = ""
+                } else {
+                    inputPartyNameError.value = fieldRequiredText
                 }
-            } else {
-                inputPartyNameError.value = fieldRequiredText
             }
-        }
-        PartyCodingListView(
-            partyCodingData = partyCodingData,
-            onDeletePressed = { partyToDelete ->
-                coroutineScope.launch {
-                    db.partyCodingDao.deletePartyCoding(partyToDelete)
+            PartyCodingListView(
+                partyCodingData = partyCodingData,
+                onDeletePressed = { partyToDelete ->
+                    coroutineScope.launch {
+                        db.partyCodingDao.deletePartyCoding(partyToDelete)
+                    }
+                },
+                onPartyMovedUpPressed = { partyToMoveUp ->
+                    val itemIndex = partyCodingData.indexOf(partyToMoveUp)
+                    val partyToShiftUp = partyCodingData[itemIndex]
+                    val partyToShiftDown = partyCodingData[itemIndex - 1]
+                    partyToShiftUp.sortOrder = partyToShiftUp.sortOrder - 1
+                    partyToShiftDown.sortOrder = partyToShiftDown.sortOrder + 1
+                    partyToShiftUp.lastUpdated = getCurrentDate()
+                    partyToShiftDown.lastUpdated = getCurrentDate()
+                    coroutineScope.launch {
+                        db.partyCodingDao.upsertPartyCoding(partyToShiftUp)
+                        db.partyCodingDao.upsertPartyCoding(partyToShiftDown)
+                    }
+                },
+                onPartyMovedDownPressed = { partyToMoveDown ->
+                    val itemIndex = partyCodingData.indexOf(partyToMoveDown)
+                    val partyToShiftUp = partyCodingData[itemIndex + 1]
+                    val partyToShiftDown = partyCodingData[itemIndex]
+                    partyToShiftUp.sortOrder = partyToShiftUp.sortOrder - 1
+                    partyToShiftDown.sortOrder = partyToShiftDown.sortOrder + 1
+                    partyToShiftUp.lastUpdated = getCurrentDate()
+                    partyToShiftDown.lastUpdated = getCurrentDate()
+                    coroutineScope.launch {
+                        db.partyCodingDao.upsertPartyCoding(partyToShiftUp)
+                        db.partyCodingDao.upsertPartyCoding(partyToShiftDown)
+                    }
+                },
+                onEditPressed = { partyToEdit ->
+                    editedItem.add(partyToEdit)
+                    buttonText.value = updateText
+                    inputPartyName.value = partyToEdit.name
                 }
-            },
-            onPartyMovedUpPressed = { partyToMoveUp ->
-                val itemIndex = partyCodingData.indexOf(partyToMoveUp)
-                val partyToShiftUp = partyCodingData[itemIndex]
-                val partyToShiftDown = partyCodingData[itemIndex - 1]
-                partyToShiftUp.sortOrder = partyToShiftUp.sortOrder - 1
-                partyToShiftDown.sortOrder = partyToShiftDown.sortOrder + 1
-                partyToShiftUp.lastUpdated = getCurrentDate()
-                partyToShiftDown.lastUpdated = getCurrentDate()
-                coroutineScope.launch {
-                    db.partyCodingDao.upsertPartyCoding(partyToShiftUp)
-                    db.partyCodingDao.upsertPartyCoding(partyToShiftDown)
-                }
-            },
-            onPartyMovedDownPressed = { partyToMoveDown ->
-                val itemIndex = partyCodingData.indexOf(partyToMoveDown)
-                val partyToShiftUp = partyCodingData[itemIndex + 1]
-                val partyToShiftDown = partyCodingData[itemIndex]
-                partyToShiftUp.sortOrder = partyToShiftUp.sortOrder - 1
-                partyToShiftDown.sortOrder = partyToShiftDown.sortOrder + 1
-                partyToShiftUp.lastUpdated = getCurrentDate()
-                partyToShiftDown.lastUpdated = getCurrentDate()
-                coroutineScope.launch {
-                    db.partyCodingDao.upsertPartyCoding(partyToShiftUp)
-                    db.partyCodingDao.upsertPartyCoding(partyToShiftDown)
-                }
-            },
-            onEditPressed = { partyToEdit ->
-                editedItem.add(partyToEdit)
-                buttonText.value = updateText
-                inputPartyName.value = partyToEdit.name
-            }
 
-        )
+            )
+        }
     }
 }
 
