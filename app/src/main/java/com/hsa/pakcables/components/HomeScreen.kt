@@ -1,27 +1,45 @@
 package com.hsa.pakcables.components
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.hsa.pakcables.activities.LoginActivity
 import com.hsa.pakcables.components.combined.HomeBottomBar
 import com.hsa.pakcables.components.combined.HomeTopBar
 import com.hsa.pakcables.components.singletons.OutPutContent
 import com.hsa.pakcables.database.StockDataBase
+import com.hsa.pakcables.database.tables.CurrentUser
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(db : StockDataBase) {
+fun HomeScreen(db : StockDataBase , logOutCalled : ()-> Unit) {
+    val currentUserCheck : List<CurrentUser> by db.currentUserDao.getUserById().collectAsState(
+        initial = emptyList()
+    )
     val selectedTab = remember { mutableStateOf(0) }
-    val profileName = remember { mutableStateOf("Irfan") }
+    val profileName = remember { mutableStateOf("") }
     val profileImage = remember { mutableStateOf("") }
+
+    if (currentUserCheck.isNotEmpty()){
+        profileName.value = currentUserCheck[0].firstName + " " + currentUserCheck[0].lastName
+    }
+
     Scaffold(
         topBar = {
-                 HomeTopBar(profileName = profileName, profileImage = profileImage) {
-
-                 }
+                 HomeTopBar(
+                     profileName = profileName,
+                     profileImage = profileImage ,
+                     profilePicClicked = {},
+                     logOutCalled = {
+                         logOutCalled()
+                     }
+                 )
         },
         bottomBar = {
             BottomNavigation(

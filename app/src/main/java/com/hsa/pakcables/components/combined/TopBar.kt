@@ -22,6 +22,7 @@ import com.hsa.pakcables.ui.theme.gradientGrayBlack
 import com.hsa.pakcables.R
 import com.hsa.pakcables.components.singletons.MainHeadingTextCenter
 import com.hsa.pakcables.components.singletons.MainHeadingTextStart
+import com.hsa.pakcables.components.singletons.ProfilePopupMenu
 import com.hsa.pakcables.ui.theme.pakCables
 
 @Composable
@@ -53,7 +54,8 @@ fun MainTopBar() {
 fun HomeTopBar(
     profileName : MutableState<String>,
     profileImage : MutableState<String>,
-    profilePicClicked : ()->Unit
+    profilePicClicked : ()->Unit,
+    logOutCalled : ()->Unit,
 ){
     Box(
         modifier = Modifier
@@ -78,10 +80,9 @@ fun HomeTopBar(
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable { profilePicClicked() }) {
                 Text(text = profileName.value, fontFamily = RobotoCondensed, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 Spacer(Modifier.padding(start = 5.dp))
-                ProfilePicture(avatar = profileImage)
+                ProfilePopupMenu(avatar = profileImage , logoutCalled = { logOutCalled() })
             }
         }
-
     }
 
 }
