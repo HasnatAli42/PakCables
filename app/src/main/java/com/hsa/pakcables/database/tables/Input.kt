@@ -21,8 +21,11 @@ data class Input(
     val core6 : Double,
     val createdDate : Date,
     val lastUpdated : Date,
+    val itemName : String,
+    val itemCodingID : Int,
     val inputID : Int,
-//    val userID : Int,
+    val userID : Int,
+    val remarks : String,
 
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,

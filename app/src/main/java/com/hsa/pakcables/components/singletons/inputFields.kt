@@ -8,9 +8,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
@@ -79,9 +78,7 @@ fun PasswordOutLinedInputWithError(stringMutableState: MutableState<String>, err
 }
 
 @Composable
-fun MeasurementConverterOutLineTextField(labelText : String) {
-    val inputValue = remember { mutableStateOf("") }
-    val selectedConversion = remember { mutableStateOf(Conversion.METERS) }
+fun MeasurementConverterOutLineTextField(labelText : String , inputValue : MutableState<String>, selectedConversion : MutableState<Conversion>) {
     val focusManager = LocalFocusManager.current
     Column(modifier = Modifier.fillMaxWidth()) {
         OutlinedTextField(
@@ -105,7 +102,7 @@ fun MeasurementConverterOutLineTextField(labelText : String) {
             modifier = Modifier.fillMaxWidth(),
             textStyle = MaterialTheme.typography.body1,
             colors = TextFieldDefaults.outlinedTextFieldColors(
-                textColor = MaterialTheme.colors.onSurface,
+                textColor = MaterialTheme.colors.primary,
                 focusedBorderColor = MaterialTheme.colors.primary,
                 unfocusedBorderColor = MaterialTheme.colors.onSurface
             ),
@@ -153,18 +150,17 @@ fun MeasurementConverterOutLineTextField(labelText : String) {
 }
 
 @Composable
-fun OutLineTextFieldWithIntegerInput(labelText : String) {
-    val inputValue = remember { mutableStateOf("") }
+fun OutLineTextFieldWithIntegerInput(labelText : String, integerInputState : MutableState<String>) {
     val focusManager = LocalFocusManager.current
     Column(modifier = Modifier.fillMaxWidth()) {
         OutlinedTextField(
-            value = inputValue.value,
+            value = integerInputState.value,
             onValueChange = {
                 if (it.isEmpty()){
-                    inputValue.value = it
+                    integerInputState.value = it
                 } else {
-                    inputValue.value = when (it.toIntOrNull()) {
-                        null -> inputValue.value //old value
+                    integerInputState.value = when (it.toIntOrNull()) {
+                        null -> integerInputState.value //old value
                         else -> it   //new value
                     }
                 }
@@ -178,7 +174,7 @@ fun OutLineTextFieldWithIntegerInput(labelText : String) {
             modifier = Modifier.fillMaxWidth(),
             textStyle = MaterialTheme.typography.body1,
             colors = TextFieldDefaults.outlinedTextFieldColors(
-                textColor = MaterialTheme.colors.onSurface,
+                textColor = MaterialTheme.colors.primary,
                 focusedBorderColor = MaterialTheme.colors.primary,
                 unfocusedBorderColor = MaterialTheme.colors.onSurface
             ),
@@ -187,7 +183,32 @@ fun OutLineTextFieldWithIntegerInput(labelText : String) {
 }
 
 @Composable
-fun OutLinedInputWithSearch(stringMutableState: MutableState<String>, labelText : String , keyboardType: KeyboardType, imeAction: ImeAction){
+fun OutLineTextFieldWithIntegerTotalInput(labelText : String, integerInputState : MutableState<String>) {
+    val focusManager = LocalFocusManager.current
+    Column(modifier = Modifier.fillMaxWidth()) {
+        OutlinedTextField(
+            value = integerInputState.value,
+            onValueChange = { },
+            enabled = false,
+            label = { Text(text = labelText) },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+            modifier = Modifier.fillMaxWidth(),
+            textStyle = MaterialTheme.typography.body1,
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                textColor = MaterialTheme.colors.primary,
+                focusedBorderColor = MaterialTheme.colors.primary,
+                unfocusedBorderColor = MaterialTheme.colors.onSurface
+            ),
+        )
+    }
+}
+
+@Composable
+fun OutLinedInputWithTrailingIcon(stringMutableState: MutableState<String>, labelText : String, keyboardType: KeyboardType, imeAction: ImeAction, painter: Painter){
     val focusManager = LocalFocusManager.current
     Column(modifier = Modifier.fillMaxWidth()) {
         OutlinedTextField(
@@ -201,12 +222,12 @@ fun OutLinedInputWithSearch(stringMutableState: MutableState<String>, labelText 
             modifier = Modifier.fillMaxWidth(),
             textStyle = MaterialTheme.typography.body1,
             colors = TextFieldDefaults.outlinedTextFieldColors(
-                textColor = MaterialTheme.colors.onSurface,
+                textColor = MaterialTheme.colors.primary,
                 focusedBorderColor = MaterialTheme.colors.primary,
                 unfocusedBorderColor = MaterialTheme.colors.onSurface
             ),
             keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-            trailingIcon = { Icon(painter =painterResource(id = R.drawable.baseline_search_24), contentDescription = searchText, tint = lightGreen) }
+            trailingIcon = { Icon(painter =painter, contentDescription = labelText, tint = lightGreen) }
         )
     }
 }

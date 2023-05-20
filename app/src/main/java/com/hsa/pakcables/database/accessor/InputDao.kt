@@ -16,6 +16,6 @@ interface InputDao {
     @Delete
     suspend fun deleteInput(input : Input)
 
-    @Query("SELECT * FROM input ORDER BY inputID ASC")
-    fun getInput(): Flow<List<Input>>
+    @Query("SELECT * FROM input WHERE userID = :userID ORDER BY inputID ASC")
+    fun getInput(userID : Int): Flow<List<Input>>
 }

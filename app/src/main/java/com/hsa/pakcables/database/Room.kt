@@ -9,7 +9,7 @@ import com.hsa.pakcables.functions.Converters
 
 @Database(
     entities = [User::class, Input::class, ItemCoding::class, PartyCoding::class, CurrentUser::class],
-    version = 11,
+    version = 13,
     exportSchema = false
 )
 
