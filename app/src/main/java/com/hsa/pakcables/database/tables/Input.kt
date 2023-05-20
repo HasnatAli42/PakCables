@@ -22,6 +22,7 @@ data class Input(
     val createdDate : Date,
     val lastUpdated : Date,
     val inputID : Int,
+//    val userID : Int,
 
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,

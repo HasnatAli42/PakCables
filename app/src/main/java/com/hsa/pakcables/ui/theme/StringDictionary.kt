@@ -51,3 +51,8 @@ const val editRecordText = "Edit Record"
 
 const val signUpSuccessText = "SignUp Successful"
 const val rememberMeText = "Remember Me"
+const val saveText = "Save"
+const val searchText = "Search"
+
+const val meterText = "m"
+const val feetText = "ft"
