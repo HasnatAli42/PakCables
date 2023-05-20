@@ -2,6 +2,8 @@ package com.hsa.pakcables.components
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -16,6 +18,7 @@ import com.hsa.pakcables.database.StockDataBase
 import com.hsa.pakcables.database.tables.CurrentUser
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(db : StockDataBase , logOutCalled : ()-> Unit) {

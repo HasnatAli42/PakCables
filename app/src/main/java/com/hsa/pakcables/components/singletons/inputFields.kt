@@ -112,7 +112,7 @@ fun MeasurementConverterOutLineTextField(labelText : String , inputValue : Mutab
                         onClick = {
                             if (inputValue.value.isNotEmpty()){
                                 val meters = inputValue.value
-                                val feet = meters.toDoubleOrNull()?.times((3.28084))
+                                val feet = meters.toDoubleOrNull()?.times((meterToFeetConversionConstant))
                                 inputValue.value = String.format("%.2f", feet)
                             }
                             selectedConversion.value = Conversion.FEET
@@ -129,7 +129,7 @@ fun MeasurementConverterOutLineTextField(labelText : String , inputValue : Mutab
                         onClick = {
                             if (inputValue.value.isNotEmpty()) {
                                 val feet = inputValue.value
-                                val meters = feet.toDoubleOrNull()?.div((3.28084))
+                                val meters = feet.toDoubleOrNull()?.div((meterToFeetConversionConstant))
                                 inputValue.value = String.format("%.2f", meters)
                             }
                             selectedConversion.value = Conversion.METERS

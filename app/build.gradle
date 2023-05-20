@@ -94,4 +94,8 @@ dependencies {
 
 // Status & Nav Bar Controller
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
+
+//    DatePicker
+    implementation 'io.github.vanpra.compose-material-dialogs:datetime:0.8.1-rc'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.6'
 }

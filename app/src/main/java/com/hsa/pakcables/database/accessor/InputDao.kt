@@ -18,4 +18,7 @@ interface InputDao {
 
     @Query("SELECT * FROM input WHERE userID = :userID ORDER BY inputID ASC")
     fun getInput(userID : Int): Flow<List<Input>>
+
+    @Query("SELECT * FROM input WHERE userID = :userID and inputID = :inputID ORDER BY inputID ASC")
+    fun getInputByID(userID : Int, inputID : Int): Flow<List<Input>>
 }
