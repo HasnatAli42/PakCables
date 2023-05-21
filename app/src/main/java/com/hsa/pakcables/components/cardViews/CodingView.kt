@@ -88,13 +88,13 @@ fun ItemCodingView(
                             onEditPressed()
                         }
                     )
-                    Icon(painter = painterResource(id = R.drawable.baseline_delete_outline_24),
-                        contentDescription = deleteRecordText,
-                        tint = tintColor,
-                        modifier = Modifier.clickable {
-                            onDeletePressed()
-                        }
-                    )
+//                    Icon(painter = painterResource(id = R.drawable.baseline_delete_outline_24),
+//                        contentDescription = deleteRecordText,
+//                        tint = tintColor,
+//                        modifier = Modifier.clickable {
+//                            onDeletePressed()
+//                        }
+//                    )
                 }
 
             }
@@ -163,13 +163,13 @@ fun PartyCodingView(
                             onEditPressed()
                         }
                     )
-                    Icon(painter = painterResource(id = R.drawable.baseline_delete_outline_24),
-                        contentDescription = deleteRecordText,
-                        tint = tintColor,
-                        modifier = Modifier.clickable {
-                            onDeletePressed()
-                        }
-                    )
+//                    Icon(painter = painterResource(id = R.drawable.baseline_delete_outline_24),
+//                        contentDescription = deleteRecordText,
+//                        tint = tintColor,
+//                        modifier = Modifier.clickable {
+//                            onDeletePressed()
+//                        }
+//                    )
                 }
             }
         }

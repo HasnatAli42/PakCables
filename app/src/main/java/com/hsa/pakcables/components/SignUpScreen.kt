@@ -28,6 +28,8 @@ fun SignUpScreen(
     passwordError : MutableState<String>,
     confirmPassword : MutableState<String>,
     confirmPasswordError : MutableState<String>,
+    code : MutableState<String>,
+    codeError : MutableState<String>,
     signUp : ()-> Unit,
     goToLogin : ()-> Unit,
 ) {
@@ -91,7 +93,9 @@ fun SignUpScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     PasswordOutLinedInputWithError(stringMutableState = password, errorMutableState = passwordError, labelText = passwordText, keyboardType = KeyboardType.Password, imeAction = ImeAction.Next)
                     Spacer(modifier = Modifier.height(16.dp))
-                    PasswordOutLinedInputWithError(stringMutableState = confirmPassword, errorMutableState = confirmPasswordError, labelText = confirmPasswordText, keyboardType = KeyboardType.Password, imeAction = ImeAction.Done)
+                    PasswordOutLinedInputWithError(stringMutableState = confirmPassword, errorMutableState = confirmPasswordError, labelText = confirmPasswordText, keyboardType = KeyboardType.Password, imeAction = ImeAction.Next)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    OutLinedInputWithError(stringMutableState = code, errorMutableState = codeError, labelText = codeText, keyboardType = KeyboardType.Text, imeAction = ImeAction.Done)
                     Spacer(modifier = Modifier.height(16.dp))
                     NormalPrimaryButton(event = { signUp() }, text = signUpText)
                     Spacer(modifier = Modifier.height(16.dp))

@@ -51,6 +51,8 @@ class SignUpActivity : ComponentActivity() {
             val passwordError = remember { mutableStateOf("") }
             val confirmPassword = remember { mutableStateOf("") }
             val confirmPasswordError = remember { mutableStateOf("") }
+            val code = remember { mutableStateOf("") }
+            val codeError = remember { mutableStateOf("") }
             val context = LocalContext.current
             val coroutineScope = rememberCoroutineScope()
             PakCablesTheme {
@@ -68,6 +70,8 @@ class SignUpActivity : ComponentActivity() {
                     passwordError = passwordError,
                     confirmPassword = confirmPassword,
                     confirmPasswordError = confirmPasswordError,
+                    code = code,
+                    codeError = codeError,
                     signUp = {
                         if (isSignupValid(
                                 firstName = firstName,
@@ -82,6 +86,8 @@ class SignUpActivity : ComponentActivity() {
                                 passwordError = passwordError,
                                 confirmPassword = confirmPassword,
                                 confirmPasswordError = confirmPasswordError,
+                                code = code,
+                                codeError = codeError,
                         )){
                             val user = User(
                                 firstName = firstName.value,
@@ -129,6 +135,8 @@ fun isSignupValid(
     passwordError : MutableState<String>,
     confirmPassword : MutableState<String>,
     confirmPasswordError : MutableState<String>,
+    code : MutableState<String>,
+    codeError : MutableState<String>,
 ) : Boolean{
     if (firstName.value.isEmpty()){
         firstNameError.value = fieldRequiredText
@@ -167,6 +175,12 @@ fun isSignupValid(
     }else{
         passwordError.value = ""
         confirmPasswordError.value = ""
+    }
+    if (code.value != pakCablesCodeText){
+        codeError.value = invalidCodeText
+        return false
+    }else{
+        codeError.value = ""
     }
     return true
 }
