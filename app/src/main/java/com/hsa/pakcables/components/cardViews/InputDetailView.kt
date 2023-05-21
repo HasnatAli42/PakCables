@@ -26,8 +26,8 @@ import com.hsa.pakcables.ui.theme.*
 
 @Composable
 fun InputDetailView(input: Input) {
-    val bgColor = YellowCard
-    val textColor = lightGreen
+    val bgColor = lightGreen
+    val textColor = GradientBlue
 
     Card(
         modifier = Modifier
@@ -69,9 +69,8 @@ fun InputDetailView(input: Input) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = redText + ":" + input.red.toString(), color = textColor, modifier = Modifier.fillMaxWidth(0.3f))
-                Text(text = blackText + ":" + input.black.toString(), color = textColor, modifier = Modifier.fillMaxWidth(0.5f))
-                Text(text = blueText + ":" + input.blue.toString(), color = textColor, modifier = Modifier.fillMaxWidth(0.75f))
+                Text(text = redText + ":" + input.red.toString(), color = textColor, modifier = Modifier.fillMaxWidth(0.5f))
+                Text(text = blackText + ":" + input.black.toString(), color = textColor, modifier = Modifier.fillMaxWidth())
 
             }
             Row(
@@ -79,20 +78,25 @@ fun InputDetailView(input: Input) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = greenText + ":" + input.green.toString(), color = textColor, modifier = Modifier.fillMaxWidth(0.3f))
+                Text(text = blueText + ":" + input.blue.toString(), color = textColor, modifier = Modifier.fillMaxWidth(0.5f))
+                Text(text = greenText + ":" + input.green.toString(), color = textColor, modifier = Modifier.fillMaxWidth())
+            }
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text(text = yellowText + ":" + input.yellow.toString(), color = textColor, modifier = Modifier.fillMaxWidth(0.5f))
-                Text(text = whiteText + ":" + input.white.toString(), color = textColor, modifier = Modifier.fillMaxWidth(0.75f))
-
-
+                Text(text = whiteText + ":" + input.white.toString(), color = textColor, modifier = Modifier.fillMaxWidth())
             }
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = otherText + ":" + input.other.toString(), color = textColor, modifier = Modifier.fillMaxWidth(0.3f))
-                Text(text = totalText + ":" + input.total.toString(), color = textColor, modifier = Modifier.fillMaxWidth(0.5f))
-                Text(text = core2Text + ":" + input.core2.toString() + meterText, color = textColor, modifier = Modifier.fillMaxWidth(0.75f))
+                Text(text = otherText + ":" + input.other.toString(), color = textColor, modifier = Modifier.fillMaxWidth(0.5f))
+                Text(text = totalText + ":" + input.total.toString(), color = textColor, modifier = Modifier.fillMaxWidth())
+
             }
 
             Row(
@@ -100,9 +104,17 @@ fun InputDetailView(input: Input) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = core3Text + ":" + input.core3.toString() + meterText, color = textColor, modifier = Modifier.fillMaxWidth(0.3f))
+                Text(text = core2Text + ":" + input.core2.toString() + meterText, color = textColor, modifier = Modifier.fillMaxWidth(0.5f))
+                Text(text = core3Text + ":" + input.core3.toString() + meterText, color = textColor, modifier = Modifier.fillMaxWidth())
+
+            }
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text(text = core4Text + ":" + input.core4.toString() + meterText, color = textColor, modifier = Modifier.fillMaxWidth(0.5f))
-                Text(text = core5Text + ":" + input.core5.toString() + meterText, color = textColor, modifier = Modifier.fillMaxWidth(0.75f))
+                Text(text = core5Text + ":" + input.core5.toString() + meterText, color = textColor, modifier = Modifier.fillMaxWidth())
             }
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,

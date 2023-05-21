@@ -24,7 +24,7 @@ import com.hsa.pakcables.ui.theme.*
 
 @Composable
 fun AddInputView(input: InputRequestModel) {
-    val bgColor = BlueCard
+    val bgColor = lightGreen
     val tintColor = GradientBlue
     val redInput = remember { mutableStateOf("") }
     val blackInput = remember { mutableStateOf("") }

@@ -102,9 +102,9 @@ fun MeasurementConverterOutLineTextField(labelText : String , inputValue : Mutab
             modifier = Modifier.fillMaxWidth(),
             textStyle = MaterialTheme.typography.body1,
             colors = TextFieldDefaults.outlinedTextFieldColors(
-                textColor = MaterialTheme.colors.primary,
+                textColor = GradientBlue,
                 focusedBorderColor = MaterialTheme.colors.primary,
-                unfocusedBorderColor = MaterialTheme.colors.onSurface
+                unfocusedBorderColor = MaterialTheme.colors.primary
             ),
             trailingIcon = {
                 if (selectedConversion.value == Conversion.METERS){
@@ -174,9 +174,9 @@ fun OutLineTextFieldWithIntegerInput(labelText : String, integerInputState : Mut
             modifier = Modifier.fillMaxWidth(),
             textStyle = MaterialTheme.typography.body1,
             colors = TextFieldDefaults.outlinedTextFieldColors(
-                textColor = MaterialTheme.colors.primary,
+                textColor = GradientBlue,
                 focusedBorderColor = MaterialTheme.colors.primary,
-                unfocusedBorderColor = MaterialTheme.colors.onSurface
+                unfocusedBorderColor = MaterialTheme.colors.primary
             ),
         )
     }

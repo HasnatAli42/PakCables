@@ -38,7 +38,8 @@ import java.util.*
 fun InputContent(db: StockDataBase, currentUser: CurrentUser) {
     val selectedScreen = remember { mutableStateOf(1) }
     val selectedRecordID = remember { mutableStateOf(1) }
-
+    val startDate = remember{ mutableStateOf(LocalDate.now())}
+    val endDate = remember{ mutableStateOf(LocalDate.now().plusDays(1))}
     fun goToMain() {
         selectedScreen.value = 1
     }
@@ -71,7 +72,9 @@ fun InputContent(db: StockDataBase, currentUser: CurrentUser) {
                 selectedRecord = {
                     id ->  selectedRecordID.value = id
                     goToDetail()
-                }
+                },
+                startDate = startDate,
+                endDate = endDate
             )
             3 -> InputDetailContent(
                 db = db,
@@ -151,7 +154,7 @@ fun InputMainContent(db: StockDataBase, currentUser: CurrentUser, gotoReport: ()
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(0.91f)
+            .fillMaxHeight(0.9f)
             .verticalScroll(scroll),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -163,12 +166,16 @@ fun InputMainContent(db: StockDataBase, currentUser: CurrentUser, gotoReport: ()
     }
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.Top,
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
+            .fillMaxHeight()
             .padding(top = 10.dp)
     ) {
-        Row(modifier = Modifier.fillMaxWidth(0.5f)) {
+        Row(
+            verticalAlignment = Alignment.Top,
+            modifier = Modifier.fillMaxWidth(0.5f)
+        ) {
             OutLinedInputWithTrailingIcon(
                 stringMutableState = remarks,
                 labelText = remarksText,
@@ -193,13 +200,13 @@ fun InputReportContent(
     db: StockDataBase,
     goToMain: ()->Unit,
     currentUser: CurrentUser,
-    selectedRecord : (id :Int)-> Unit
+    selectedRecord : (id :Int)-> Unit,
+    startDate : MutableState<LocalDate>,
+    endDate : MutableState<LocalDate>
 ) {
     val scroll = rememberScrollState()
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
-    val startDate = remember{ mutableStateOf(LocalDate.now())}
-    val endDate = remember{ mutableStateOf(LocalDate.now())}
     val initial = remember{ mutableStateOf(true)}
     val inputData: List<Input> by db.inputDao.getInput(currentUser.userID)
         .collectAsState(initial = emptyList())
