@@ -6,14 +6,20 @@ import androidx.room.TypeConverters
 import com.hsa.pakcables.database.accessor.*
 import com.hsa.pakcables.database.tables.*
 import com.hsa.pakcables.functions.Converters
+import com.hsa.pakcables.functions.DoubleListTypeConverters
 
 @Database(
-    entities = [User::class, Input::class, ItemCoding::class, PartyCoding::class, CurrentUser::class],
-    version = 13,
+    entities = [
+        User::class, Input::class,
+        ItemCoding::class, PartyCoding::class,
+        CurrentUser::class, Prices::class,
+        Stock::class
+               ],
+    version = 16,
     exportSchema = false
 )
 
-@TypeConverters(Converters::class)
+@TypeConverters(Converters::class, DoubleListTypeConverters::class)
 abstract class StockDataBase: RoomDatabase() {
 
     abstract val userDao: UserDao
@@ -21,4 +27,6 @@ abstract class StockDataBase: RoomDatabase() {
     abstract val inputDao: InputDao
     abstract val itemCodingDao: ItemCodingDao
     abstract val partyCodingDao: PartyCodingDao
+    abstract val pricesDao: PricesDao
+    abstract val stockDao: StockDao
 }

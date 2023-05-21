@@ -1,9 +1,6 @@
 package com.hsa.pakcables.database.accessor
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Query
-import androidx.room.Upsert
+import androidx.room.*
 import com.hsa.pakcables.database.tables.Input
 import com.hsa.pakcables.database.tables.ItemCoding
 import com.hsa.pakcables.database.tables.User
@@ -13,6 +10,9 @@ import kotlinx.coroutines.flow.Flow
 interface ItemCodingDao {
     @Upsert
     suspend fun upsertItemCoding(itemCoding: ItemCoding)
+
+    @Insert
+    suspend fun insertItemCoding(itemCoding: ItemCoding) : Long
 
     @Delete
     suspend fun deleteItemCoding(itemCoding: ItemCoding)

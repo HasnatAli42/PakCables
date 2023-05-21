@@ -1,5 +1,6 @@
 package com.hsa.pakcables.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -13,10 +14,12 @@ import com.hsa.pakcables.components.combined.InputRowForItemCoding
 import com.hsa.pakcables.components.combined.InputRowForPartyCoding
 import com.hsa.pakcables.components.combined.ViewSwitches_2
 import com.hsa.pakcables.database.StockDataBase
-import com.hsa.pakcables.database.tables.CurrentUser
-import com.hsa.pakcables.database.tables.ItemCoding
-import com.hsa.pakcables.database.tables.PartyCoding
+import com.hsa.pakcables.database.tables.*
+import com.hsa.pakcables.functions.convertPricesRequestToPrices
+import com.hsa.pakcables.functions.convertStockRequestToStock
 import com.hsa.pakcables.functions.getCurrentDate
+import com.hsa.pakcables.models.PricesRequestModel
+import com.hsa.pakcables.models.StockRequestModel
 import com.hsa.pakcables.ui.theme.*
 import kotlinx.coroutines.launch
 
@@ -89,8 +92,10 @@ fun ItemCodingContent(db: StockDataBase) {
                                     userId = currentUserCheck[0].userID
                                 )
                             )
+                            editedItem.last().id?.let { db.stockDao.updateStockItemName(itemName = inputItemName.value, lastUpdated = getCurrentDate() ,id = it) }
+                            editedItem.last().id?.let { db.pricesDao.updatePricesItemName(itemName = inputItemName.value, lastUpdated = getCurrentDate() ,id = it) }
                         }else{
-                            db.itemCodingDao.upsertItemCoding(
+                          val insertedID =  db.itemCodingDao.insertItemCoding(
                                 ItemCoding(
                                     name = inputItemName.value,
                                     sortOrder = if (itemCodingData.isNotEmpty()) {
@@ -101,7 +106,11 @@ fun ItemCodingContent(db: StockDataBase) {
                                     createdDate = getCurrentDate(),
                                     lastUpdated = getCurrentDate(),
                                     userId = currentUserCheck[0].userID
-                                ))
+                                )).toInt()
+                            val stockToAdd = StockRequestModel(itemName = inputItemName.value, itemCodingID =  insertedID, id = insertedID)
+                            db.stockDao.upsertStock(convertStockRequestToStock(request = stockToAdd, userID = currentUserCheck[0].userID))
+                            val pricesToAdd = PricesRequestModel(itemName = inputItemName.value, itemCodingID =  insertedID, id = insertedID)
+                            db.pricesDao.upsertPrices(convertPricesRequestToPrices(request = pricesToAdd, userID = currentUserCheck[0].userID))
                         }
                         inputItemName.value = ""
                     }
@@ -310,7 +319,6 @@ fun PartyCodingListView(
             .padding(all = 10.dp)
             .verticalScroll(scroll)
     ) {
-
         partyCodingData.forEach {   party ->
             Spacer(modifier = Modifier.padding(top = 10.dp))
             PartyCodingView(

@@ -1,7 +1,6 @@
 package com.hsa.pakcables.database.tables
 
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import java.util.Date
 
