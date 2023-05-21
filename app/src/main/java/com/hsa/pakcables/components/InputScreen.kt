@@ -23,6 +23,8 @@ import com.hsa.pakcables.database.StockDataBase
 import com.hsa.pakcables.database.tables.CurrentUser
 import com.hsa.pakcables.database.tables.Input
 import com.hsa.pakcables.database.tables.ItemCoding
+import com.hsa.pakcables.database.tables.Stock
+import com.hsa.pakcables.functions.addInputToStock
 import com.hsa.pakcables.functions.nullIntegerHandler
 import com.hsa.pakcables.functions.getCurrentDate
 import com.hsa.pakcables.functions.updateBasedOnUnits
@@ -101,6 +103,8 @@ fun InputMainContent(db: StockDataBase, currentUser: CurrentUser, gotoReport: ()
         .collectAsState(initial = emptyList())
     val inputData: List<Input> by db.inputDao.getInput(currentUser.userID)
         .collectAsState(initial = emptyList())
+    val stockData : List<Stock> by db.stockDao.getStock(currentUser.userID)
+        .collectAsState(initial = emptyList())
     if (inputData.isNotEmpty() && initialIndex.value) {
         initialIndex.value = false
         lastInputID.value = inputData.last().inputID + 1
@@ -142,8 +146,13 @@ fun InputMainContent(db: StockDataBase, currentUser: CurrentUser, gotoReport: ()
                 userID = currentUser.userID,
                 remarks = remarks.value,
             )
+            val stockTobeUpdated = stockData.find { stock -> stock.id == data.itemID }
+            val newStock = stockTobeUpdated?.let { addInputToStock(input = data, previousStock = it, userID = currentUser.userID) }
             coroutineScope.launch {
                 db.inputDao.upsertInput(input = insertInput)
+                if (newStock != null) {
+                    db.stockDao.upsertStock(stock = newStock)
+                }
             }
         }
         textToast(text = inputInsertSuccessText, context = context)

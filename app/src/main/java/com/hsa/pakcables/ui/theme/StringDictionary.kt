@@ -27,10 +27,12 @@ const val inputText = "Input"
 const val outputText = "Output"
 const val codingText = "Codings"
 const val stockText = "Stock"
-const val reportText = "Reports"
+const val pricingText = "Pricing"
 
 const val partyCodingText = "Party Coding"
 const val itemCodingText = "Items Coding"
+
+
 
 const val partyCodingInputText = "Party Name"
 const val itemCodingInputText = "Item Name"

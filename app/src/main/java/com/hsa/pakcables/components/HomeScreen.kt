@@ -60,9 +60,8 @@ fun HomeScreen(db : StockDataBase , logOutCalled : ()-> Unit) {
             when (selectedTab.value) {
                 0 -> InputContent(db = db, currentUser = currentUserCheck[0])
                 1 -> OutPutContent(db = db)
-                2 -> StockContent(db = db)
+                2 -> StockContent(db = db, currentUser = currentUserCheck[0])
                 3 -> CodingContent(db = db)
-                4 -> ReportContent(db = db)
             }
         }
     }

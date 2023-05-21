@@ -96,22 +96,6 @@ fun HomeBottomBar(
                 )
             }
 
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxHeight(1f)
-            ) {
-                BottomBarTabsIcon(
-                    painterId = R.drawable.baseline_report_24,
-                    selectedTab = selectedTab,
-                    tabValue = 4
-                )
-                BottomBarTabsText(
-                    text = reportText,
-                    selectedTab = selectedTab,
-                    tabValue = 4
-                )
-            }
         }
 
     }
