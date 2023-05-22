@@ -147,7 +147,7 @@ fun PricesContent(db: StockDataBase, currentUser: CurrentUser) {
     }
     Row(modifier = Modifier
         .fillMaxWidth()
-        .padding(top = 10.dp, start = 10.dp, end = 10.dp)) {
+        .padding(all = 10.dp)) {
         NormalPrimaryButton(event = { onPricesSaved() }, text = updateText)
     }
 
