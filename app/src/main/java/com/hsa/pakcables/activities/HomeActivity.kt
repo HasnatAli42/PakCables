@@ -26,7 +26,7 @@ class HomeActivity : ComponentActivity() {
             applicationContext,
             StockDataBase::class.java,
             "stock.db"
-        ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
+        ).fallbackToDestructiveMigration().build()
     }
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {

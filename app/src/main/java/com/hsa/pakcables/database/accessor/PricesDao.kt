@@ -20,5 +20,5 @@ interface PricesDao {
     fun getPrices(userID : Int): Flow<List<Prices>>
 
     @Query("UPDATE prices SET itemName = :itemName and lastUpdated = :lastUpdated WHERE id = :id")
-    fun updatePricesItemName(itemName:String,lastUpdated : Date, id:Int)
+    fun updatePricesItemName(itemName:String, lastUpdated : Date, id:Int)
 }

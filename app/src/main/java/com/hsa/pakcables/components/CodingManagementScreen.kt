@@ -92,8 +92,6 @@ fun ItemCodingContent(db: StockDataBase) {
                                     userId = currentUserCheck[0].userID
                                 )
                             )
-                            editedItem.last().id?.let { db.stockDao.updateStockItemName(itemName = inputItemName.value, lastUpdated = getCurrentDate() ,id = it) }
-                            editedItem.last().id?.let { db.pricesDao.updatePricesItemName(itemName = inputItemName.value, lastUpdated = getCurrentDate() ,id = it) }
                         }else{
                           val insertedID =  db.itemCodingDao.insertItemCoding(
                                 ItemCoding(
